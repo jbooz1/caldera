@@ -129,10 +129,15 @@ class DataService(DataServiceInterface, BaseService):
                                 encoded_code = self.encode_string(code_data.decode('utf-8').strip())
                             else:
                                 encoded_code = self.encode_string(cleaned_code)
+                            encoded_test = encoded_code
                         else:
                             encoded_code = None
+                        if not encoded_test:
+                            encoded_test = cleanup_cmd
                         payloads = ab.pop('payloads', []) if encoded_code else info.get('payloads')
                         uploads = ab.pop('uploads', []) if encoded_code else info.get('uploads')
+                        if not encoded_test:
+                            print(ability_id)
                         for e in name.split(','):
                             for pl in platforms.split(','):
                                 a = await self._create_ability(ability_id=ability_id, tactic=tactic,
